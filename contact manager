@@ -1,0 +1,63 @@
+contacts = {}
+
+def add_contact(name, phone, email):
+    contacts[name] = {'Phone': phone, 'Email': email}
+    print(f"Contact '{name}' added successfully.")
+
+def view_contacts():
+    if not contacts:
+        print("No contacts found.")
+    else:
+        for name, details in contacts.items():
+            print(f"Name: {name}, Phone: {details['Phone']}, Email: {details['Email']}")
+
+def edit_contact(name, field, new_info):
+    if name in contacts:
+        if field in ['Phone', 'Email']:
+            contacts[name][field] = new_info
+            print(f"Contact '{name}' updated successfully.")
+        else:
+            print("Invalid field. Only 'Phone' and 'Email' are editable.")
+    else:
+        print("Contact not found.")
+
+def delete_contact(name):
+    if name in contacts:
+        del contacts[name]
+        print(f"Contact '{name}' deleted successfully.")
+    else:
+        print("Contact not found.")
+
+def main():
+    while True:
+        print("\nContact Management System Menu:")
+        print("1. Add Contact")
+        print("2. View Contacts")
+        print("3. Edit Contact")
+        print("4. Delete Contact")
+        print("5. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            name = input("Enter contact name: ")
+            phone = input("Enter contact phone: ")
+            email = input("Enter contact email: ")
+            add_contact(name, phone, email)
+        elif choice == '2':
+            view_contacts()
+        elif choice == '3':
+            name = input("Enter contact name to edit: ")
+            field = input("Enter field to edit (Phone/Email): ")
+            new_info = input("Enter new information: ")
+            edit_contact(name, field, new_info)
+        elif choice == '4':
+            name = input("Enter contact name to delete: ")
+            delete_contact(name)
+        elif choice == '5':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
