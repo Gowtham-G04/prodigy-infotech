@@ -1,0 +1,33 @@
+import requests
+from bs4 import BeautifulSoup
+import csv
+
+url = 'https://www.example.com/products'
+
+response = requests.get(url)
+if response.status_code != 200:
+    raise Exception(f"Failed to load page {url}")
+
+soup = BeautifulSoup(response.text, 'html.parser')
+
+products = soup.find_all('div', class_='product-item')
+
+product_data = []
+
+for product in products:
+    name = product.find('h2', class_='product-name').text.strip()
+    price = product.find('span', class_='product-price').text.strip()
+    rating = product.find('div', class_='product-rating').text.strip() if product.find('div', class_='product-rating') else 'No rating'
+
+    product_data.append([name, price, rating])
+
+csv_file = 'products.csv'
+
+with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    # Write the header row
+    writer.writerow(['Name', 'Price', 'Rating'])
+    # Write the product rows
+    writer.writerows(product_data)
+
+print(f"Data saved to {csv_file}")
